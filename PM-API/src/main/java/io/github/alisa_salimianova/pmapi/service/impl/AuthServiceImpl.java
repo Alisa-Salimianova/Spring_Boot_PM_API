@@ -1,8 +1,8 @@
 package io.github.alisa_salimianova.pmapi.service.impl;
 
+import io.github.alisa_salimianova.pmapi.dto.auth.AuthResponse;
 import io.github.alisa_salimianova.pmapi.dto.auth.LoginRequest;
 import io.github.alisa_salimianova.pmapi.dto.auth.RegisterRequest;
-import io.github.alisa_salimianova.pmapi.dto.auth.AuthResponse;
 import io.github.alisa_salimianova.pmapi.entity.User;
 import io.github.alisa_salimianova.pmapi.repository.UserRepository;
 import io.github.alisa_salimianova.pmapi.security.jwt.JwtService;
@@ -26,17 +26,20 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already in use");
+            throw new RuntimeException("User with this email already exists");
         }
 
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role("USER")
+                // createdAt выставляется автоматически через @PrePersist
                 .build();
 
         userRepository.save(user);
 
         String token = jwtService.generateToken(user);
+
         return new AuthResponse(token);
     }
 
@@ -54,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         String token = jwtService.generateToken(user);
+
         return new AuthResponse(token);
     }
 }

@@ -1,13 +1,17 @@
 package io.github.alisa_salimianova.pmapi.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
 import java.time.Instant;
 
-@Builder
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -24,16 +28,10 @@ public class User {
     private String role;
 
     @Column(nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
+    private Instant createdAt;
 
-    // getters & setters
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-    public String getPassword() { return password; }
-    public String getRole() { return role; }
-    public Instant getCreatedAt() { return createdAt; }
-
-    public void setEmail(String email) { this.email = email; }
-    public void setPassword(String password) { this.password = password; }
-    public void setRole(String role) { this.role = role; }
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
+    }
 }

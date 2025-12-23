@@ -8,6 +8,6 @@ public class PingController {
 
     @GetMapping("/ping")
     public String ping() {
-        return "PM API is alive";
+        return "pong";
     }
 }
