@@ -1,5 +1,10 @@
 package io.github.alisa_salimianova.pmapi.dto.auth;
 
-public record AuthResponse(
-        String token
-) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class AuthResponse {
+    private String token;
+}

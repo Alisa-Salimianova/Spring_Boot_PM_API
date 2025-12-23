@@ -1,12 +1,10 @@
+
 package io.github.alisa_salimianova.pmapi.dto.auth;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record LoginRequest(
-
-        @NotBlank(message = "Email is required")
-        String email,
-
-        @NotBlank(message = "Password is required")
-        String password
-) {}
+@Data
+public class LoginRequest {
+    private String email;
+    private String password;
+}
