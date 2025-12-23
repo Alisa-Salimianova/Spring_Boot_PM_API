@@ -1,8 +1,11 @@
 package io.github.alisa_salimianova.pmapi.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+
 import java.time.Instant;
 
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
